@@ -61,15 +61,13 @@ const saveRobotData = (robotName: string, data: ReportData[]) => {
 };
 
 const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: () => void }) => {
-  const [mode, setMode] = useState<'view' | 'manage'>('view');
+  const [activeTab, setActiveTab] = useState<'view' | 'manage' | 'management'>('view');
   const [authenticated, setAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [selectedReport, setSelectedReport] = useState(0);
   const [reports, setReports] = useState<ReportData[]>(() => loadRobotData(robotName));
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
-  const [showManagement, setShowManagement] = useState(false);
 
   const currentReport = reports[selectedReport];
 
