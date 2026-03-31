@@ -236,6 +236,13 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
           </div>
         </div>
 
+        {/* Viking Management Panel */}
+        {showManagement && (
+          <div className="p-4 border-b border-foreground/10">
+            <VikingManagementPanel robotName={robotName} isManageMode={mode === 'manage'} />
+          </div>
+        )}
+
         {/* Dashboard */}
         <div className="p-4">
           <div className="border border-foreground/10 rounded-lg p-4 mb-4">
