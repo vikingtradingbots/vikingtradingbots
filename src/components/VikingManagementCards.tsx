@@ -117,7 +117,7 @@ export const VikingManagementPreview = () => {
       <p className="text-center font-montserrat font-bold text-foreground text-lg mb-5">
         Viking Management — BTC/USD Example
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
         {cards.map((card, i) => (
           <div key={i} className="rounded-2xl overflow-hidden border-2 flex flex-col" style={{ borderColor: card.badgeColor }}>
             <div className="py-5 text-center" style={{ background: card.headerBg }}>
