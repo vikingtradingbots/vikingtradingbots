@@ -444,7 +444,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
             <button
               onClick={() => {
                 saveRobotData(robotName, reports);
-                setMode('view');
+                setActiveTab('view');
                 setAuthenticated(false);
                 setPasswordInput('');
               }}
