@@ -115,7 +115,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
     reader.readAsDataURL(file);
   };
 
-  const isEditable = mode === 'manage';
+  const isEditable = activeTab === 'manage' && authenticated;
   const printIcons = [FileText, TrendingUp, BarChart3, Printer];
 
   return (
