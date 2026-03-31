@@ -236,7 +236,7 @@ export const VikingManagementPanel = ({
                 </>
               )}
             </div>
-            <div className="bg-card p-5">
+            <div className="bg-card p-5 flex-1 flex flex-col">
               <div className="text-center mb-3">
                 <span
                   className="inline-block text-xs font-montserrat font-bold px-3 py-1 rounded-full text-white"
