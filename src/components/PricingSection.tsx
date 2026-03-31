@@ -52,8 +52,9 @@ const PricingSection = () => {
             <div className="bg-[#3a7d1e] px-5 py-4 text-center">
               <p className="font-montserrat font-bold text-white text-base">Annual</p>
             </div>
-            <div className="bg-[#5aaa2a] px-5 py-6 flex flex-col gap-4" style={{boxShadow:'0 6px 0 #1f5010',borderRadius:'0 0 16px 16px'}}>
+            <div className="bg-[#5aaa2a] px-5 py-6 flex flex-col gap-4 flex-1" style={{boxShadow:'0 6px 0 #1f5010',borderRadius:'0 0 16px 16px'}}>
               <div className="text-center">
+                <p className="font-opensans text-white/60 text-xs">Starting from:</p>
                 <p className="font-montserrat font-bold text-white text-3xl">$249</p>
                 <p className="font-opensans text-white/70 text-xs mt-1">per year · best value</p>
               </div>
