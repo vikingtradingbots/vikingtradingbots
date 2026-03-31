@@ -124,7 +124,7 @@ export const VikingManagementPreview = () => {
               <p className="font-montserrat font-bold text-white text-2xl">{card.capital}</p>
               <p className="text-white/80 text-xs font-montserrat mt-1">{card.lotSize}</p>
             </div>
-            <div className="bg-card p-5 text-center">
+            <div className="bg-card p-5 text-center flex-1 flex flex-col">
               <span
                 className="inline-block text-xs font-montserrat font-bold px-3 py-1 rounded-full mb-2 text-white"
                 style={{ backgroundColor: card.badgeColor }}
