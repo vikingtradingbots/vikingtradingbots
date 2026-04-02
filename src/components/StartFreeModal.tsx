@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, CheckCircle, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabaseClient';
 
 interface StartFreeModalProps {
   onClose: () => void;
