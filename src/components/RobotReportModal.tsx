@@ -44,20 +44,20 @@ const emptyReport = (quarter: string): ReportData => ({
 });
 
 const QUARTERS = ['Jan – Mar', 'Apr – Jun', 'Jul – Sep', 'Oct – Dec'];
+const AVAILABLE_YEARS = [2025, 2026];
 
-const getStorageKey = (robotName: string) => `viking_robot_${robotName.replace(/[^a-zA-Z0-9]/g, '_')}`;
+const getStorageKey = (robotName: string, year: number) => `viking_robot_${robotName.replace(/[^a-zA-Z0-9]/g, '_')}_${year}`;
 
-const loadRobotData = (robotName: string): ReportData[] => {
+const loadRobotData = (robotName: string, year: number): ReportData[] => {
   try {
-    const stored = localStorage.getItem(getStorageKey(robotName));
+    const stored = localStorage.getItem(getStorageKey(robotName, year));
     if (stored) return JSON.parse(stored);
   } catch {}
-  const year = new Date().getFullYear();
   return QUARTERS.map(t => emptyReport(`${t} ${year}`));
 };
 
-const saveRobotData = (robotName: string, data: ReportData[]) => {
-  localStorage.setItem(getStorageKey(robotName), JSON.stringify(data));
+const saveRobotData = (robotName: string, year: number, data: ReportData[]) => {
+  localStorage.setItem(getStorageKey(robotName, year), JSON.stringify(data));
 };
 
 const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: () => void }) => {
@@ -65,8 +65,9 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
   const [authenticated, setAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(AVAILABLE_YEARS[AVAILABLE_YEARS.length - 1]);
   const [selectedReport, setSelectedReport] = useState(0);
-  const [reports, setReports] = useState<ReportData[]>(() => loadRobotData(robotName));
+  const [reports, setReports] = useState<ReportData[]>(() => loadRobotData(robotName, AVAILABLE_YEARS[AVAILABLE_YEARS.length - 1]));
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
   const currentReport = reports[selectedReport];
@@ -99,7 +100,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
     const updated = [...reports];
     updated[selectedReport] = { ...updated[selectedReport], [field]: value };
     setReports(updated);
-    saveRobotData(robotName, updated);
+    saveRobotData(robotName, selectedYear, updated);
   };
 
   const handlePrintUpload = (index: number, file: File) => {
@@ -110,7 +111,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
       prints[index] = { ...prints[index], url: e.target?.result as string };
       updated[selectedReport] = { ...updated[selectedReport], prints };
       setReports(updated);
-      saveRobotData(robotName, updated);
+      saveRobotData(robotName, selectedYear, updated);
     };
     reader.readAsDataURL(file);
   };
@@ -131,7 +132,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-foreground/10">
           <span className="text-muted text-xs font-montserrat uppercase tracking-wider">
-            Report Q{selectedReport + 1} {new Date().getFullYear()} – {robotName}
+            Report Q{selectedReport + 1} {selectedYear} – {robotName}
           </span>
           <div className="flex items-center gap-2">
             <div className="flex rounded-lg overflow-hidden border border-foreground/10">
@@ -201,20 +202,43 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
 
         {/* Quarter selector - only for view/manage */}
         {(activeTab === 'view' || (activeTab === 'manage' && authenticated)) && (
-        <div className="flex gap-2 p-4 border-b border-foreground/10">
-          {QUARTERS.map((t, i) => (
-            <button
-              key={t}
-              onClick={() => setSelectedReport(i)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-montserrat font-bold transition-all ${
-                selectedReport === i
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-foreground/5 text-muted hover:text-foreground hover:bg-foreground/10'
-              }`}
-            >
-              Q{i + 1}
-            </button>
-          ))}
+        <div className="flex flex-col gap-2 p-4 border-b border-foreground/10">
+          {/* Year selector */}
+          <div className="flex gap-2">
+            {AVAILABLE_YEARS.map((year) => (
+              <button
+                key={year}
+                onClick={() => {
+                  setSelectedYear(year);
+                  setSelectedReport(0);
+                  setReports(loadRobotData(robotName, year));
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-montserrat font-bold transition-all ${
+                  selectedYear === year
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-foreground/5 text-muted hover:text-foreground hover:bg-foreground/10'
+                }`}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+          {/* Quarter selector */}
+          <div className="flex gap-2">
+            {QUARTERS.map((t, i) => (
+              <button
+                key={t}
+                onClick={() => setSelectedReport(i)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-montserrat font-bold transition-all ${
+                  selectedReport === i
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-foreground/5 text-muted hover:text-foreground hover:bg-foreground/10'
+                }`}
+              >
+                Q{i + 1}
+              </button>
+            ))}
+          </div>
         </div>
         )}
 
@@ -446,7 +470,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
           {isEditable && (
             <button
               onClick={() => {
-                saveRobotData(robotName, reports);
+                saveRobotData(robotName, selectedYear, reports);
                 setActiveTab('view');
                 setAuthenticated(false);
                 setPasswordInput('');
