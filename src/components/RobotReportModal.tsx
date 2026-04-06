@@ -132,7 +132,7 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-foreground/10">
           <span className="text-muted text-xs font-montserrat uppercase tracking-wider">
-            Report Q{selectedReport + 1} {new Date().getFullYear()} – {robotName}
+            Report Q{selectedReport + 1} {selectedYear} – {robotName}
           </span>
           <div className="flex items-center gap-2">
             <div className="flex rounded-lg overflow-hidden border border-foreground/10">
