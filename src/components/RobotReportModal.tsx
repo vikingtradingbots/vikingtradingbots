@@ -56,8 +56,8 @@ const loadRobotData = (robotName: string, year: number): ReportData[] => {
   return QUARTERS.map(t => emptyReport(`${t} ${year}`));
 };
 
-const saveRobotData = (robotName: string, data: ReportData[]) => {
-  localStorage.setItem(getStorageKey(robotName), JSON.stringify(data));
+const saveRobotData = (robotName: string, year: number, data: ReportData[]) => {
+  localStorage.setItem(getStorageKey(robotName, year), JSON.stringify(data));
 };
 
 const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: () => void }) => {
