@@ -44,15 +44,15 @@ const emptyReport = (quarter: string): ReportData => ({
 });
 
 const QUARTERS = ['Jan – Mar', 'Apr – Jun', 'Jul – Sep', 'Oct – Dec'];
+const AVAILABLE_YEARS = [2025, 2026];
 
-const getStorageKey = (robotName: string) => `viking_robot_${robotName.replace(/[^a-zA-Z0-9]/g, '_')}`;
+const getStorageKey = (robotName: string, year: number) => `viking_robot_${robotName.replace(/[^a-zA-Z0-9]/g, '_')}_${year}`;
 
-const loadRobotData = (robotName: string): ReportData[] => {
+const loadRobotData = (robotName: string, year: number): ReportData[] => {
   try {
-    const stored = localStorage.getItem(getStorageKey(robotName));
+    const stored = localStorage.getItem(getStorageKey(robotName, year));
     if (stored) return JSON.parse(stored);
   } catch {}
-  const year = new Date().getFullYear();
   return QUARTERS.map(t => emptyReport(`${t} ${year}`));
 };
 
