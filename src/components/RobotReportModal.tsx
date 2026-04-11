@@ -61,7 +61,7 @@ const saveRobotData = (robotName: string, year: number, data: ReportData[]) => {
 };
 
 const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: () => void }) => {
-  const [activeTab, setActiveTab] = useState<'view' | 'manage' | 'management'>('view');
+  const [activeTab, setActiveTab] = useState<'view' | 'manage'>('view');
   const [authenticated, setAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -144,16 +144,6 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
                 style={{ backgroundColor: activeTab === 'view' ? '#aaff00' : '#1a5fa8' }}
               >
                 View
-              </button>
-              <button
-                onClick={() => setActiveTab('management')}
-                className={`px-4 py-1.5 text-xs font-montserrat font-bold transition-colors flex items-center gap-1 ${
-                  activeTab === 'management' ? 'text-black' : 'text-white hover:brightness-125'
-                }`}
-                style={{ backgroundColor: activeTab === 'management' ? '#aaff00' : '#1a5fa8' }}
-              >
-                <Shield size={12} />
-                Management
               </button>
               <button
                 onClick={handleManage}
@@ -259,10 +249,10 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
           </div>
         </div>
 
-        {/* Viking Management Panel */}
-        {activeTab === 'management' && (
+        {/* Viking Management Panel - shown in View and Manage */}
+        {(activeTab === 'view' || (activeTab === 'manage' && authenticated)) && (
           <div className="p-4 border-b border-foreground/10">
-            <VikingManagementPanel robotName={robotName} isManageMode={false} />
+            <VikingManagementPanel robotName={robotName} isManageMode={activeTab === 'manage' && authenticated} />
           </div>
         )}
 
