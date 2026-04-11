@@ -146,16 +146,6 @@ const RobotReportModal = ({ robotName, onClose }: { robotName: string; onClose: 
                 View
               </button>
               <button
-                onClick={() => setActiveTab('management')}
-                className={`px-4 py-1.5 text-xs font-montserrat font-bold transition-colors flex items-center gap-1 ${
-                  activeTab === 'management' ? 'text-black' : 'text-white hover:brightness-125'
-                }`}
-                style={{ backgroundColor: activeTab === 'management' ? '#aaff00' : '#1a5fa8' }}
-              >
-                <Shield size={12} />
-                Management
-              </button>
-              <button
                 onClick={handleManage}
                 className={`px-4 py-1.5 text-xs font-montserrat font-bold transition-colors ${
                   activeTab === 'manage' ? 'text-black' : 'text-white hover:brightness-125'
